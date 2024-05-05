@@ -6,16 +6,15 @@
 #
 #  id            :bigint           not null, primary key
 #  exchange_date :date             not null
-#  rate          :integer          not null
+#  rate          :decimal(8, )
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  currency_id   :bigint           not null
 #
 # Indexes
 #
-#  index_exchange_rates_on_currency_id           (currency_id)
-#  index_exchange_rates_on_currency_id_and_rate  (currency_id,rate) UNIQUE
-#  index_exchange_rates_on_exchange_date         (exchange_date) UNIQUE
+#  index_exchange_rates_on_currency_id    (currency_id)
+#  index_exchange_rates_on_exchange_date  (exchange_date) UNIQUE
 #
 # Foreign Keys
 #
@@ -25,6 +24,6 @@ FactoryBot.define do
   factory :exchange_rate do
     exchange_date { Faker::Date.unique.in_date_period }
     currency { association(:currency) }
-    rate { 100 }
+    rate { 100.10 }
   end
 end
