@@ -26,3 +26,5 @@ Layout/SpaceAfterColon:
   Enabled: true
 Style/HashSyntax:
   EnforcedShorthandSyntax: consistent
+RSpec/MultipleExpectations:
+  Enabled: false
