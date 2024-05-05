@@ -33,5 +33,6 @@ RSpec.describe SailingOption do
   describe '#associations' do
     it { is_expected.to belong_to(:destination_port).class_name('Port') }
     it { is_expected.to belong_to(:origin_port).class_name('Port') }
+    it { is_expected.to have_many(:sailing_rates).through(:sailing_option_rates) }
   end
 end

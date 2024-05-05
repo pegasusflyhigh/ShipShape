@@ -25,6 +25,8 @@
 class SailingOption < ApplicationRecord
   belongs_to :origin_port, class_name: 'Port'
   belongs_to :destination_port, class_name: 'Port'
+  has_many :sailing_option_rates, dependent: :nullify
+  has_many :sailing_rates, through: :sailing_option_rates
 
   validates :arrival_date, presence: true
   validates :departure_date, presence: true

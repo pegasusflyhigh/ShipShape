@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_05_155924) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_05_161911) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,6 +43,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_05_155924) do
     t.index ["code"], name: "index_ports_on_code", unique: true
   end
 
+  create_table "sailing_option_rates", force: :cascade do |t|
+    t.bigint "sailing_option_id", null: false
+    t.bigint "sailing_rate_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sailing_option_id"], name: "index_sailing_option_rates_on_sailing_option_id"
+    t.index ["sailing_rate_id"], name: "index_sailing_option_rates_on_sailing_rate_id"
+  end
+
   create_table "sailing_options", force: :cascade do |t|
     t.bigint "origin_port_id", null: false
     t.bigint "destination_port_id", null: false
@@ -65,6 +74,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_05_155924) do
   end
 
   add_foreign_key "exchange_rates", "currencies"
+  add_foreign_key "sailing_option_rates", "sailing_options"
+  add_foreign_key "sailing_option_rates", "sailing_rates"
   add_foreign_key "sailing_options", "ports", column: "destination_port_id"
   add_foreign_key "sailing_options", "ports", column: "origin_port_id"
   add_foreign_key "sailing_rates", "currencies"
