@@ -5,6 +5,7 @@ require:
   - rubocop-rspec_rails
 
 AllCops:
+  TargetRubyVersion: 3.3.0
   NewCops: enable
   Exclude:
     - "db/schema.rb"
@@ -21,3 +22,7 @@ Style/Documentation:
   Enabled: false
 Style/RaiseArgs:
   EnforcedStyle: compact
+Layout/SpaceAfterColon:
+  Enabled: true
+Style/HashSyntax:
+  EnforcedShorthandSyntax: consistent

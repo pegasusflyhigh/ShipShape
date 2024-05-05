@@ -22,17 +22,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_05_161911) do
     t.index ["code"], name: "index_currencies_on_code", unique: true
   end
 
-  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
-  end
-
   create_table "exchange_rates", force: :cascade do |t|
     t.date "exchange_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "rate", precision: 8, scale: 2, null: false
     t.bigint "currency_id", null: false
-    t.decimal "rate", precision: 8
     t.index ["currency_id"], name: "index_exchange_rates_on_currency_id"
-    t.index ["exchange_date"], name: "index_exchange_rates_on_exchange_date", unique: true
+    t.index ["exchange_date", "currency_id"], name: "index_exchange_rates_on_exchange_date_and_currency_id", unique: true
   end
 
   create_table "ports", force: :cascade do |t|
