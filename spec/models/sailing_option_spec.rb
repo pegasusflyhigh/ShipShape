@@ -28,6 +28,9 @@ RSpec.describe SailingOption do
   describe '#validations' do
     it { is_expected.to validate_presence_of(:arrival_date) }
     it { is_expected.to validate_presence_of(:departure_date) }
+  end
+
+  describe '#associations' do
     it { is_expected.to belong_to(:destination_port).class_name('Port') }
     it { is_expected.to belong_to(:origin_port).class_name('Port') }
   end
