@@ -59,6 +59,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   # Simple one-liner tests for common Rails functionality
   gem 'shoulda-matchers'
+  gem 'simplecov'
 end
 
 group :development do
