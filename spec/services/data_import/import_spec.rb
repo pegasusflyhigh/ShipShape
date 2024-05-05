@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/services/data_import/import_spec.rb
 require 'rails_helper'
 
@@ -6,7 +8,8 @@ RSpec.describe DataImport::Import do
     let(:valid_json_data) do
       {
         'sailings' => [
-          { 'origin_port' => 'A', 'destination_port' => 'B', 'departure_date' => '2024-05-01', 'arrival_date' => '2024-05-10', 'sailing_code' => 'ABCD' }
+          { 'origin_port' => 'A', 'destination_port' => 'B', 'departure_date' => '2024-05-01',
+            'arrival_date' => '2024-05-10', 'sailing_code' => 'ABCD' }
         ],
         'rates' => [
           { 'sailing_code' => 'ABCD', 'rate' => '100.00', 'rate_currency' => 'USD' }

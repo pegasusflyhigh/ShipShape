@@ -28,3 +28,7 @@ Style/HashSyntax:
   EnforcedShorthandSyntax: consistent
 RSpec/MultipleExpectations:
   Enabled: false
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: variable
