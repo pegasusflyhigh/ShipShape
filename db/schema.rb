@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_05_143155) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_05_145500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,4 +34,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_05_143155) do
     t.index ["code"], name: "index_ports_on_code", unique: true
   end
 
+  create_table "sailing_options", force: :cascade do |t|
+    t.bigint "origin_port_id", null: false
+    t.bigint "destination_port_id", null: false
+    t.date "departure_date", null: false
+    t.date "arrival_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["destination_port_id"], name: "index_sailing_options_on_destination_port_id"
+    t.index ["origin_port_id"], name: "index_sailing_options_on_origin_port_id"
+  end
+
+  add_foreign_key "sailing_options", "ports", column: "destination_port_id"
+  add_foreign_key "sailing_options", "ports", column: "origin_port_id"
 end
