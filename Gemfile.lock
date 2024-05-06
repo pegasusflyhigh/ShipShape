@@ -290,6 +290,7 @@ GEM
     stringio (3.1.0)
     strong_migrations (1.8.0)
       activerecord (>= 5.2)
+    test-prof (1.3.3)
     thor (1.3.1)
     timeout (0.4.1)
     tzinfo (2.0.6)
@@ -336,6 +337,7 @@ DEPENDENCIES
   shoulda-matchers
   simplecov
   strong_migrations
+  test-prof (~> 1.0)
   tzinfo-data
 
 RUBY VERSION

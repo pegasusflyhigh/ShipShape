@@ -60,6 +60,7 @@ group :development, :test do
   # Simple one-liner tests for common Rails functionality
   gem 'shoulda-matchers'
   gem 'simplecov'
+  gem "test-prof", "~> 1.0"
 end
 
 group :development do

@@ -4,6 +4,9 @@ require:
   - rubocop-rspec
   - rubocop-rspec_rails
 
+inherit_gem:
+  test-prof: config/rubocop-rspec.yml
+
 AllCops:
   TargetRubyVersion: 3.3.0
   NewCops: enable
@@ -32,3 +35,5 @@ Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 Layout/EndAlignment:
   EnforcedStyleAlignWith: variable
+RSpec/MultipleMemoizedHelpers:
+  Max: 15
