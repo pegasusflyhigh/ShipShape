@@ -59,8 +59,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   # Simple one-liner tests for common Rails functionality
   gem 'shoulda-matchers'
-  gem 'simplecov'
-  gem "test-prof", "~> 1.0"
 end
 
 group :development do
@@ -82,4 +80,11 @@ group :development do
   gem 'rubocop-rails', require: false
   # RuboCop extension focused on enforcing RSpec best practices and coding conventions
   gem 'rubocop-rspec', '~> 2', require: false
+end
+
+group :test do
+  # Code coverage
+  gem 'simplecov'
+  # TestProf is a collection of different tools to analyze your test suite performance
+  gem 'test-prof'
 end
