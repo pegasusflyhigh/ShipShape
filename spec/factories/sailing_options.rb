@@ -29,4 +29,11 @@ FactoryBot.define do
     departure_date { Faker::Date.unique.in_date_period }
     arrival_date { departure_date + 1.month }
   end
+
+  trait :with_sailing_rates do
+    after(:create) do |sailing_option|
+      sailing_rate = create(:sailing_rate)
+      create(:sailing_option_rate, sailing_rate:, sailing_option:)
+    end
+  end
 end
