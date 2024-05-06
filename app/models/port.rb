@@ -15,6 +15,8 @@
 #  index_ports_on_code  (code) UNIQUE
 #
 class Port < ApplicationRecord
+
   validates :code, uniqueness: true, presence: true
   validates :name, presence: true
+
 end

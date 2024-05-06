@@ -2,6 +2,7 @@
 
 module DataImport
   class Import
+
     def initialize(json_data)
       @json_data = json_data
     end
@@ -100,5 +101,6 @@ module DataImport
     def find_or_create_currency(currency_code)
       Currency.find_or_create_by(code: currency_code.upcase)
     end
+
   end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class UpdateExchangeRatesSchemaWithCurrency < ActiveRecord::Migration[7.0]
+
   def change
     safety_assured do
       change_table :exchange_rates, bulk: true do |t|
@@ -16,4 +17,5 @@ class UpdateExchangeRatesSchemaWithCurrency < ActiveRecord::Migration[7.0]
       change_column_null :exchange_rates, :exchange_date, false
     end
   end
+
 end

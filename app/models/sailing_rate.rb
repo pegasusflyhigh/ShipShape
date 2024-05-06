@@ -21,6 +21,7 @@
 #  fk_rails_...  (currency_id => currencies.id)
 #
 class SailingRate < ApplicationRecord
+
   belongs_to :currency
 
   validates :sailing_code, presence: true
@@ -28,4 +29,5 @@ class SailingRate < ApplicationRecord
   validates :sailing_code, uniqueness: { scope: :currency_id }
 
   delegate :code, to: :currency, prefix: true
+
 end

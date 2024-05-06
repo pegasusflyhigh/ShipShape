@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class CreatePorts < ActiveRecord::Migration[7.0]
+
   def change
     create_table :ports do |t|
       t.string :code, unique: true, null: false
@@ -11,4 +12,5 @@ class CreatePorts < ActiveRecord::Migration[7.0]
       t.timestamps
     end
   end
+
 end

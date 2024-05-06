@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class CreateSailingOptions < ActiveRecord::Migration[7.0]
+
   def change
     create_table :sailing_options do |t|
       t.references :origin_port, foreign_key: { to_table: :ports }, null: false
@@ -11,4 +12,5 @@ class CreateSailingOptions < ActiveRecord::Migration[7.0]
       t.timestamps
     end
   end
+
 end

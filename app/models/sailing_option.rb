@@ -23,6 +23,7 @@
 #  fk_rails_...  (origin_port_id => ports.id)
 #
 class SailingOption < ApplicationRecord
+
   belongs_to :origin_port, class_name: 'Port'
   belongs_to :destination_port, class_name: 'Port'
   has_many :sailing_option_rates, dependent: :nullify
@@ -34,4 +35,5 @@ class SailingOption < ApplicationRecord
   scope :direct_between, lambda { |origin_port, destination_port|
     includes(:sailing_rates).where(origin_port:, destination_port:)
   }
+
 end

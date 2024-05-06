@@ -6,6 +6,7 @@
 
 module DataImport
   class JsonValidator
+
     def initialize(json_data)
       @json_data = json_data
       @errors = []
@@ -71,5 +72,6 @@ module DataImport
       false &&
         rates.is_a?(Hash)
     end
+
   end
 end

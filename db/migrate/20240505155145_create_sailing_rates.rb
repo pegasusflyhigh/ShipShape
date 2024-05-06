@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class CreateSailingRates < ActiveRecord::Migration[7.0]
+
   def change
     create_table :sailing_rates do |t|
       t.decimal :rate, null: false
@@ -12,4 +13,5 @@ class CreateSailingRates < ActiveRecord::Migration[7.0]
       t.timestamps
     end
   end
+
 end

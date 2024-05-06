@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class CreateExchangeRates < ActiveRecord::Migration[7.0]
+
   def change
     create_table :exchange_rates do |t|
       t.date :exchange_date, unique: true
@@ -12,4 +13,5 @@ class CreateExchangeRates < ActiveRecord::Migration[7.0]
       t.timestamps
     end
   end
+
 end

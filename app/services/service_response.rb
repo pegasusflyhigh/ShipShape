@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ServiceResponse
+
   attr_reader :result, :errors
 
   def initialize(status:, result: nil, errors: nil)
@@ -32,4 +33,5 @@ class ServiceResponse
 
     new(status: :error, errors: errors)
   end
+
 end

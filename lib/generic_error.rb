@@ -18,6 +18,7 @@
 #
 # Behaves like an exception.
 class GenericError < StandardError
+
   include ActiveModel::Validations
 
   def initialize(error, options = {})
@@ -27,4 +28,5 @@ class GenericError < StandardError
       super(error)
     end
   end
+
 end

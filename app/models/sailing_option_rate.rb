@@ -21,6 +21,8 @@
 #  fk_rails_...  (sailing_rate_id => sailing_rates.id)
 #
 class SailingOptionRate < ApplicationRecord
+
   belongs_to :sailing_option
   belongs_to :sailing_rate
+
 end

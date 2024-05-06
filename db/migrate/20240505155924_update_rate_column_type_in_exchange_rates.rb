@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class UpdateRateColumnTypeInExchangeRates < ActiveRecord::Migration[7.0]
+
   def self.up
     safety_assured do
       change_column :exchange_rates, :rate, :decimal, precision: 8, scale: 2
@@ -18,4 +19,5 @@ class UpdateRateColumnTypeInExchangeRates < ActiveRecord::Migration[7.0]
       add_index :exchange_rates, %i[currency_id rate], unique: true
     end
   end
+
 end
