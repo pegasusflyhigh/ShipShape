@@ -25,4 +25,8 @@ class ExchangeRate < ApplicationRecord
 
   validates :exchange_date, presence: true, uniqueness: { scope: :currency_id }
   validates :rate, presence: true
+
+  def self.rate_for_date_and_currency(exchange_date, currency_code)
+    joins(:currency).find_by(exchange_date: exchange_date, currencies: { code: currency_code })
+  end
 end

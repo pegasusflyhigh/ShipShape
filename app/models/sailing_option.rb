@@ -30,4 +30,8 @@ class SailingOption < ApplicationRecord
 
   validates :arrival_date, presence: true
   validates :departure_date, presence: true
+
+  scope :direct_between, lambda { |origin_port, destination_port|
+    includes(:sailing_rates).where(origin_port:, destination_port:)
+  }
 end

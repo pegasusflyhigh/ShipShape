@@ -31,3 +31,8 @@
 
 en:
   hello: "Hello world"
+  no_direct_sailing_found: 'No direct sailing option present between these ports'
+  invalid_sailing_json_data: 'Invalid sailing data'
+  invalid_rates_json_data: 'Invalid rates data'
+  invalid_exchange_rates_json_data: 'Invalid exchange rates data' 
+

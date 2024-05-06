@@ -15,6 +15,8 @@
 #  index_currencies_on_code  (code) UNIQUE
 #
 class Currency < ApplicationRecord
+  BASE_CURRENCY = 'EUR'
+
   has_many :exchange_rates, dependent: :nullify
 
   validates :code, presence: true, uniqueness: true, length: { maximum: 3, minimum: 3 }

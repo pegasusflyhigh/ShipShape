@@ -26,4 +26,6 @@ class SailingRate < ApplicationRecord
   validates :sailing_code, presence: true
   validates :rate, presence: true
   validates :sailing_code, uniqueness: { scope: :currency_id }
+
+  delegate :code, to: :currency, prefix: true
 end

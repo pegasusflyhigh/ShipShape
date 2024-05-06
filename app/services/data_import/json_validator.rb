@@ -29,23 +29,23 @@ module DataImport
     attr_accessor :errors
 
     def validate_sailings
-      errors << 'Invalid sailing data' unless json_data['sailings'].is_a?(Array) &&
-                                              json_data['sailings'].all? do |sailing|
-                                                valid_sailing?(sailing)
-                                              end
+      errors << I18n.t(:invalid_sailing_json_data) unless json_data['sailings'].is_a?(Array) &&
+                                                     json_data['sailings'].all? do |sailing|
+                                                       valid_sailing?(sailing)
+                                                     end
     end
 
     def validate_rates
-      errors << 'Invalid rates data' unless json_data['rates'].is_a?(Array) && json_data['rates'].all? do |rate|
-                                              valid_rate?(rate)
-                                            end
+      errors << I18n.t(:invalid_rates_json_data) unless json_data['rates'].is_a?(Array) && json_data['rates'].all? do |rate|
+                                                     valid_rate?(rate)
+                                                   end
     end
 
     def validate_exchange_rates
-      errors << 'Invalid exchange rates data' unless json_data['exchange_rates'].is_a?(Hash) &&
-                                                     @json_data['exchange_rates'].all? do |date, rates|
-                                                       valid_exchange_rate?(date, rates)
-                                                     end
+      errors << I18n.t(:invalid_exchange_rates_json_data) unless json_data['exchange_rates'].is_a?(Hash) &&
+                                                            @json_data['exchange_rates'].all? do |date, rates|
+                                                              valid_exchange_rate?(date, rates)
+                                                            end
     end
 
     def valid_sailing?(sailing)
