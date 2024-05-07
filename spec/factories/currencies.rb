@@ -19,4 +19,19 @@ FactoryBot.define do
     code { Faker::Currency.unique.code }
     name { Faker::Currency.unique.name }
   end
+
+  trait :euro do
+    code { 'EUR' }
+    name { 'Euro' }
+  end
+
+  trait :japanese_yen do
+    code { 'JPY' }
+    name { 'Japanese yen' }
+  end
+
+  trait :us_dollars do
+    code { 'USD' }
+    name { 'US Dollars' }
+  end
 end

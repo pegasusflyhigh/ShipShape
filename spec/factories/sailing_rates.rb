@@ -22,8 +22,20 @@
 #
 FactoryBot.define do
   factory :sailing_rate do
-    rate { '9.99' }
+    rate { 100 }
     currency { association(:currency) }
-    sailing_code { 'MyString' }
+    sailing_code { 'ABCD' }
+  end
+
+  trait :with_euro_currency do
+    currency { association(:currency, :euro) }
+  end
+
+  trait :with_japanese_yen_currency do
+    currency { association(:currency, :japanese_yen) }
+  end
+
+  trait :with_us_dollars_currency do
+    currency { association(:currency, :us_dollars) }
   end
 end

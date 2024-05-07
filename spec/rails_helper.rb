@@ -10,6 +10,7 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'rubocop-rspec_rails'
 require 'test_prof/recipes/rspec/let_it_be'
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
