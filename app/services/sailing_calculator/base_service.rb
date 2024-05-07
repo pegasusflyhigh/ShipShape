@@ -16,7 +16,10 @@ module SailingCalculator
     end
 
     def call
-      return ServiceResponse.error(I18n.t(:no_sailing_found)) if no_sailing_options_present?
+      if no_sailing_options_present?
+        return ServiceResponse.error(I18n.t(:no_sailing_found, origin_port_code:,
+                                                               destination_port_code:))
+      end
 
       total_cost, paths = find_cheapest_sailing
 

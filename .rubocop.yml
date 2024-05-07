@@ -36,7 +36,7 @@ Layout/MultilineMethodCallIndentation:
 Layout/EndAlignment:
   EnforcedStyleAlignWith: variable
 RSpec/MultipleMemoizedHelpers:
-  Max: 15
+  Max: 20
 Layout/EmptyLinesAroundClassBody:
   EnforcedStyle: empty_lines_except_namespace
 Layout/EmptyLinesAroundModuleBody:
@@ -49,5 +49,3 @@ Metrics/ModuleLength:
   Max: 150
 Metrics/AbcSize:
   Max: 50
-RSpec/MultipleMemoizedHelpers:
-  Max: 20

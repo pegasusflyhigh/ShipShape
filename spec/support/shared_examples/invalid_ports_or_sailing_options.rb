@@ -29,8 +29,9 @@ RSpec.shared_examples '#invalid_ports_or_sailing_options' do
     it 'returns an error message' do
       service_response = service.call
 
+      error_message = "No sailing option present between #{origin_port.code} and #{destination_port.code} ports"
       expect(service_response).to be_failure
-      expect(service_response.errors).to eq('No sailing option present between these ports')
+      expect(service_response.errors).to eq(error_message)
     end
   end
 end

@@ -31,8 +31,8 @@
 
 en:
   hello: "Hello world"
-  no_sailing_found: 'No sailing option present between these ports'
+  no_sailing_found: 'No sailing option present between %{origin_port_code} and %{destination_port_code} ports'
   invalid_sailing_json_data: 'Invalid sailing data'
   invalid_rates_json_data: 'Invalid rates data'
-  invalid_exchange_rates_json_data: 'Invalid exchange rates data' 
+  invalid_exchange_rates_json_data: 'Invalid exchange rates data'
 
