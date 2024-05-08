@@ -1,5 +1,22 @@
 # frozen_string_literal: true
 
+# This class implements Dijkstra's algorithm to find the cheapest sailing options between
+# an origin and destination port. The algorithm works as follows:
+#
+# 1. Initialize costs for each port with infinity, except for the origin port (cost = 0).
+# 2. Initialize a simple queue with the origin port.
+# 3. Until the queue is empty:
+#    a. Dequeue the port with the minimum cost.
+#    b. Process sailing options from the dequeued port.
+#    c. Update costs and parents if a shorter path is found.
+# 4. After processing all ports, the shortest path and its total cost are determined.
+#
+# The process_sailing_options method considers sailing rates, backtracing costs,
+# and exchange rates to calculate the total cost of reaching each port.
+#
+# The class also provides methods to format and return the fastest sailing paths.
+# If no paths are found or the origin and destination ports are the same, it returns an error.
+
 module SailingCalculator
   class BaseService
 
@@ -16,10 +33,10 @@ module SailingCalculator
     end
 
     def call
-      if no_sailing_options_present?
-        return ServiceResponse.error(I18n.t(:no_sailing_found, origin_port_code:,
-                                                               destination_port_code:))
+      if origin_port_code == destination_port_code
+        return ServiceResponse.error(I18n.t(:origin_and_destination_must_be_different))
       end
+      return error_response if no_sailing_options_present?
 
       total_cost, paths = find_cheapest_sailing
 
@@ -35,7 +52,6 @@ module SailingCalculator
       [origin_port, destination_port, sailing_options(origin_port)].any?(&:blank?)
     end
 
-    # Methods related to finding cheapest sailing
     def find_cheapest_sailing
       until queue.empty?
         current_port = port_with_minimum_cost
@@ -51,7 +67,7 @@ module SailingCalculator
       options.each do |option|
         neighbor_port = option.destination_port
         sailing_rate = find_min_sailing_rate(option)
-        rate = calculate_rate(option, sailing_rate)
+        rate = calculate_rate(option, sailing_rate) + cost_with_backtracing(current_port, option)
         total_cost = calculate_total_cost(rate, current_port)
 
         update_cost_and_parents(neighbor_port, current_port, option, sailing_rate, total_cost)
@@ -63,7 +79,7 @@ module SailingCalculator
     end
 
     def update_cost_and_parents(neighbor_port, current_port, option, sailing_rate, total_cost)
-      return unless total_cost < costs[neighbor_port]
+      return unless total_cost <= costs[neighbor_port]
 
       costs[neighbor_port] = total_cost
       parents[neighbor_port] = { port: current_port, option: option, sailing_rate: sailing_rate }
@@ -74,7 +90,6 @@ module SailingCalculator
       queue << neighbor_port unless queue.include?(neighbor_port)
     end
 
-    # Methods related to building paths
     def build_paths(parents, destination_port)
       paths = []
 
@@ -116,7 +131,6 @@ module SailingCalculator
       current_path.present? ? current_path[0][:port] : nil
     end
 
-    # Other utility methods
     def port_with_minimum_cost
       queue.min_by { |port| costs[port] }
     end
@@ -135,6 +149,30 @@ module SailingCalculator
       return INFINITY if exchange_rate.blank?
 
       sailing_rate.rate / exchange_rate
+    end
+
+    def cost_with_backtracing(current_port, option)
+      return 0 unless parents.key?(current_port) && parents[current_port][:port] == destination_port
+
+      backtraced_cost = 0
+      starting_port = current_port
+      starting_option = option
+
+      loop do
+        backtraced_cost += costs[starting_port]
+        starting_option = parents[starting_port][:option]
+
+        if parents[starting_port].blank?
+          backtraced_cost = 0
+          break
+        end
+
+        starting_port = parents[starting_port][:port]
+
+        break if starting_port == origin_port || starting_port == current_port
+      end
+
+      backtraced_cost
     end
 
     def format_sailing_options(paths)
@@ -200,7 +238,7 @@ module SailingCalculator
     end
 
     def error_response
-      ServiceResponse.error("No sailing options found between #{origin_port_code} and #{destination_port_code}")
+      ServiceResponse.error(I18n.t(:no_sailing_found, origin_port_code:, destination_port_code:))
     end
 
   end

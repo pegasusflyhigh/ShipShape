@@ -21,7 +21,7 @@ RSpec.shared_examples '#invalid_ports_or_sailing_options' do
     end
   end
 
-  context 'when no sailing options are present' do
+  context 'when no sailing options origin from the origin port' do
     before do
       allow(service).to receive(:sailing_options).with(origin_port).and_return(nil)
     end
@@ -30,6 +30,30 @@ RSpec.shared_examples '#invalid_ports_or_sailing_options' do
       service_response = service.call
 
       error_message = "No sailing option present between #{origin_port.code} and #{destination_port.code} ports"
+      expect(service_response).to be_failure
+      expect(service_response.errors).to eq(error_message)
+    end
+  end
+
+  context 'when no sailing options are present connecting the origin to destination' do
+    let_it_be(:service) { described_class.new('ESBCN', 'CNSHA') }
+
+    it 'returns an error message' do
+      service_response = service.call
+
+      error_message = 'No sailing option present between ESBCN and CNSHA ports'
+      expect(service_response).to be_failure
+      expect(service_response.errors).to eq(error_message)
+    end
+  end
+
+  context 'when origin and destination are same' do
+    let_it_be(:service) { described_class.new('ESBCN', 'ESBCN') }
+
+    it 'returns error' do
+      service_response = service.call
+
+      error_message = 'Origin and destination must be different!'
       expect(service_response).to be_failure
       expect(service_response.errors).to eq(error_message)
     end

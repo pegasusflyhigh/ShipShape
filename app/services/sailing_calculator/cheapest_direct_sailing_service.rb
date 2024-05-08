@@ -11,7 +11,7 @@ module SailingCalculator
 
     def success_response(paths)
       result = format_sailing_options(paths)
-      ServiceResponse.success(result.first)
+      ServiceResponse.success(result.first) # Direct sailing can have only one result
     end
 
   end

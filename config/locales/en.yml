@@ -35,4 +35,5 @@ en:
   invalid_sailing_json_data: 'Invalid sailing data'
   invalid_rates_json_data: 'Invalid rates data'
   invalid_exchange_rates_json_data: 'Invalid exchange rates data'
+  origin_and_destination_must_be_different: 'Origin and destination must be different!'
 
