@@ -29,13 +29,7 @@ RSpec.describe SailingCalculator::CheapestSailingService do
       ]
     end
 
-    it 'calculates the cheapest option' do
-      service_response = service.call
-
-      expect(service_response).to be_success
-      expect(service_response.result).to eq(result)
-    end
-
+    it_behaves_like '#valid_ports_and_sailing_options'
     it_behaves_like '#invalid_ports_or_sailing_options'
   end
 end
