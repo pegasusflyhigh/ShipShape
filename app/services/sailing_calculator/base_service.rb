@@ -21,6 +21,7 @@ module SailingCalculator
   class BaseService
 
     INFINITY = Float::INFINITY
+    BASE_CURRENCY = Currency::BASE_CURRENCY
 
     def initialize(origin_port_code, destination_port_code)
       @origin_port_code = origin_port_code
@@ -33,9 +34,7 @@ module SailingCalculator
     end
 
     def call
-      if origin_port_code == destination_port_code
-        return ServiceResponse.error(I18n.t(:origin_and_destination_must_be_different))
-      end
+      return error_response(I18n.t(:origin_and_destination_must_be_different)) if same_origin_and_destination?
       return error_response if no_sailing_options_present?
 
       total_cost, paths = find_cheapest_sailing
@@ -48,34 +47,46 @@ module SailingCalculator
     attr_reader :origin_port_code, :destination_port_code
     attr_accessor :queue, :parents, :costs
 
+    def same_origin_and_destination?
+      origin_port_code == destination_port_code
+    end
+
     def no_sailing_options_present?
       [origin_port, destination_port, sailing_options(origin_port)].any?(&:blank?)
     end
 
     def find_cheapest_sailing
+      process_all_ports
+
+      [costs[destination_port], build_paths(parents, destination_port)]
+    end
+
+    def process_all_ports
       until queue.empty?
         current_port = port_with_minimum_cost
         queue.delete(current_port)
-        new_sailing_options = sailing_options(current_port)
-        process_sailing_options(new_sailing_options, current_port)
+        process_sailing_options(sailing_options(current_port), current_port)
       end
-
-      [costs[destination_port], build_paths(parents, destination_port)]
     end
 
     def process_sailing_options(options, current_port)
       options.each do |option|
         neighbor_port = option.destination_port
         sailing_rate = find_min_sailing_rate(option)
-        rate = calculate_rate(option, sailing_rate) + cost_with_backtracing(current_port, option)
-        total_cost = calculate_total_cost(rate, current_port)
+        total_cost = calculate_total_cost(option, sailing_rate, current_port)
 
         update_cost_and_parents(neighbor_port, current_port, option, sailing_rate, total_cost)
       end
     end
 
-    def calculate_total_cost(rate, current_port)
-      rate.infinite? ? INFINITY : (costs[current_port] + rate)
+    def port_with_minimum_cost
+      queue.min_by { |port| costs[port] }
+    end
+
+    def calculate_total_cost(option, sailing_rate, current_port)
+      rate = calculate_rate(option, sailing_rate)
+      backtraced_cost = cost_with_backtracing(current_port, option)
+      rate.infinite? ? INFINITY : (costs[current_port] + rate + backtraced_cost)
     end
 
     def update_cost_and_parents(neighbor_port, current_port, option, sailing_rate, total_cost)
@@ -131,10 +142,6 @@ module SailingCalculator
       current_path.present? ? current_path[0][:port] : nil
     end
 
-    def port_with_minimum_cost
-      queue.min_by { |port| costs[port] }
-    end
-
     def find_min_sailing_rate(direct_sailing_option)
       direct_sailing_option.sailing_rates.min_by do |sailing_rate|
         calculate_rate(direct_sailing_option, sailing_rate)
@@ -142,7 +149,7 @@ module SailingCalculator
     end
 
     def calculate_rate(direct_sailing_option, sailing_rate)
-      return sailing_rate.rate if sailing_rate.currency_code == Currency::BASE_CURRENCY
+      return sailing_rate.rate if sailing_rate.currency_code == BASE_CURRENCY
 
       exchange_rate = cached_exchange_rate(direct_sailing_option.departure_date, sailing_rate.currency_code)
 
@@ -206,18 +213,6 @@ module SailingCalculator
       @exchange_rate_cache[date][currency_code]
     end
 
-    def origin_port
-      @origin_port ||= Port.find_by(code: origin_port_code)
-    end
-
-    def destination_port
-      @destination_port ||= Port.find_by(code: destination_port_code)
-    end
-
-    def sailing_options
-      nil
-    end
-
     def already_visited?(port)
       visited_ports.include?(port)
     end
@@ -232,13 +227,26 @@ module SailingCalculator
       @visited_ports ||= Set.new
     end
 
+    def sailing_options
+      nil
+    end
+
+    def origin_port
+      @origin_port ||= Port.find_by(code: origin_port_code)
+    end
+
+    def destination_port
+      @destination_port ||= Port.find_by(code: destination_port_code)
+    end
+
+
     def success_response(paths)
       result = format_sailing_options(paths)
       ServiceResponse.success(result)
     end
 
-    def error_response
-      ServiceResponse.error(I18n.t(:no_sailing_found, origin_port_code:, destination_port_code:))
+    def error_response(error_key = nil)
+      ServiceResponse.error(error_key || I18n.t(:no_sailing_found, origin_port_code:, destination_port_code:))
     end
 
   end

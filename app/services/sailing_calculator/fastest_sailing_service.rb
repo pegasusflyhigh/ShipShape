@@ -20,7 +20,7 @@ module SailingCalculator
       options.each do |option|
         neighbor_port = option.destination_port
         total_cost = calculate_duration(option, current_port)
-        sailing_rate = option.sailing_rates.first
+        sailing_rate = option.sailing_rates.first # Fetching the first sailing rate for simplicity
 
         update_cost_and_parents(neighbor_port, current_port, option, sailing_rate, total_cost)
       end
