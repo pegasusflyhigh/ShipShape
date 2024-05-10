@@ -239,7 +239,6 @@ module SailingCalculator
       @destination_port ||= Port.find_by(code: destination_port_code)
     end
 
-
     def success_response(paths)
       result = format_sailing_options(paths)
       ServiceResponse.success(result)
